@@ -84,3 +84,7 @@ I understood some basic concept of declaring and intializing a variable in golan
 
 Today, I learned the basics of Go syntax and how to declare variables. I found the distinction between static and dynamic typing particularly interesting and am excited to explore more!
 
+### Links
+[learn about go bytes](https://golangdocs.com/golang-bytes-variable-package)
+[All data types in GoLang](https://golangbyexample.com/all-data-types-in-golang-with-examples/)
+
