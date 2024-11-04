@@ -48,7 +48,7 @@ var booleans bool // stores true or false
 var stringsValue string // stores string
 var integers int //stores integers in 64 bits (by default) others are int8, int16, int32, int64
 var floatPoint float64 // stores floatpoint numbers eg decimal point 10.3, 0.2, 5.27..  others are float32
-var bytesValue bytes // stored data in bytes
+var bytesValue []bytes // stored data in bytes
 var pointer uintptr // stores address of a variable
 ```
 
