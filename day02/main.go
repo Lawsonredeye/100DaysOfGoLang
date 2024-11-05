@@ -5,7 +5,7 @@ import "fmt"
 
 func deferPrintOperation(name string) {
 	greeting := fmt.Sprintf("hello, %s! Welcome to golang", name)
-		defer fmt.Println(greeting)
+	defer fmt.Println(greeting)
 	return
 }
 
