@@ -30,7 +30,13 @@ func UserDetail(name string, age int, color string, balance float64) {
 ```
 As you can see, this function takes multiple parameters and when called the  total number of arguments must also be passed else the program would panic.
 
-Also you can return multiple value 
+Also you can return multiple value from a function and here is how to create such:
+```go
+func UserDetail(name string, age int, color string, balance float64) (string, int, string, float64) {
+    ...
+    // add logic here
+}
+```
 
 ## Recursive Function
 A function in GO can be recursive which is widely used in computer science to repeat a set of action till a condition is met.
@@ -57,7 +63,7 @@ func main() {
 }
 ```
 
-# Named Function
+## Named Function
 This type of function has a return value in which its variable is declared and when just the *return* is called it returns the variable declared in the expected return value. Here is a demo:
 
 ```Go
