@@ -23,6 +23,7 @@ func main() {
 	client := &http.Client{}
 	// send the get request
 	response, err := client.Do(request)
+	fmt.Println(response.Status)
 	CheckError(err)
 	// get the data and convert from a byte into a byte slice
 	resBody, err := io.ReadAll(response.Body)
@@ -32,5 +33,5 @@ func main() {
 	err = json.Indent(&b, resBody, "", "  ")
 	CheckError(err)
 	fmt.Printf("%+v\n", string(b.Bytes()))
-	// defer response.Body.Close()
+	defer response.Body.Close()
 }
