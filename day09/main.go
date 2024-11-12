@@ -1,32 +1,36 @@
 package main
 
 import (
+	"bytes"
 	"encoding/json"
 	"io"
 	"log"
 	"net/http"
-	"net/url"
+	"time"
 )
 
 
 func main() {
-	// url.Values => map[string][]string
-	formData := url.Values{
-		"name": {"lawson"},
-		"address": {"332 Main Avenue, Nigeria"}, // Come visit ;)
+		formData := json.Marshal(map[string]string{
+		"name": "lawson",
+		"address": "332 Main Avenue, Nigeria", // Come visit ;)
+	})
+	timeout := time.Duration(5 * time.Second)
+	client := http.Client{
+		Timeout: timeout,
 	}
 
-	resp, err := http.PostForm("https://httpbin.org/post", formData)
+	url := "https://httpbin.org/post"
+	request, err := http.NewRequest("POST", url, bytes.NewBuffer(formData))
+	request.Header.Set("Content-Type", "application/json")
 	checkErr(err)
+	
+	resp, err := client.Do(request)
+	checkErr(err)
+	
 	defer resp.Body.Close()
-
 	body, err := io.ReadAll(resp.Body)
-	checkErr(err)
-
-	var data map[string]interface{}
-	err = json.Unmarshal(body, &data)
-	checkErr(err)
-	log.Println(data["form"])
+	log.Println(string(body))
 }
 
 func checkErr(e error) {
