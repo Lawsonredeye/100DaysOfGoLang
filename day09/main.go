@@ -11,10 +11,11 @@ import (
 
 
 func main() {
-		formData := json.Marshal(map[string]string{
+		formData, err := json.Marshal(map[string]string{
 		"name": "lawson",
 		"address": "332 Main Avenue, Nigeria", // Come visit ;)
 	})
+	checkErr(err)
 	timeout := time.Duration(5 * time.Second)
 	client := http.Client{
 		Timeout: timeout,
@@ -30,7 +31,12 @@ func main() {
 	
 	defer resp.Body.Close()
 	body, err := io.ReadAll(resp.Body)
-	log.Println(string(body))
+	
+	var data map[string]interface{}
+	err = json.Unmarshal(body, &data)
+	checkErr(err)
+
+	log.Println(data["data"].(string))
 }
 
 func checkErr(e error) {
