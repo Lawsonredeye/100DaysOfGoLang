@@ -3,21 +3,36 @@ package main
 import (
 	"encoding/json"
 	"log"
+	"strings"
 )
 
 type Person struct {
 	Name   string `json:"name"`
 	Age    int	`json:"age"`
 	Emails []string `json:"emails"`
+	Address string
 }
 
 func main() {
-	emails := []string{"lawson@mail.com", "redeye@mail.com"}
-	json_bytes, err := json.Marshal(emails)
+	json_bytes := []byte(`
+		{
+			"Name":"Lawson Redeye",
+			"Age":27,
+			"Emails":["lawson@mail.com","redeye@mail.com"],
+			"Score":97
+		}
+	`)
+	
+	var pData map[string]interface{}
+	err := json.Unmarshal(json_bytes, &pData)
 	check(err)
-	log.Printf("%s", json_bytes)
-	// outputs:
-	// 2024/11/13 13:31:36 ["lawson@mail.com","redeye@mail.com"]
+	
+	var emails []interface{}
+	var firstEmail string
+	emails = pData["Emails"].([]interface{})
+	firstEmail = emails[0].(string)
+
+	log.Println(strings.ToUpper(firstEmail))
 }
 
 func check(e error) {
