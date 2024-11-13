@@ -88,3 +88,105 @@ func main() {
 }
 ```
 
+Here is how to use slice for creating data for encoding:
+```Go
+func main() {
+	emails := []string{"lawson@mail.com", "redeye@mail.com"}
+	json_bytes, err := json.Marshal(emails)
+	check(err)
+	log.Printf("%s", json_bytes)
+	// outputs:
+	// 2024/11/13 13:31:36 ["lawson@mail.com","redeye@mail.com"]
+}
+```
+
+## DECODING JSON DATA TO GO OBJECT
+Decoding converts a json data into a Go data (most cases from a byte to into go object).
+
+Here is a simple way to do such:
+```Go
+type Person struct {
+	Name   string `json:"name"`
+	Age    int	`json:"age"`
+	Emails []string `json:"emails"`
+}
+
+func main() {
+	json_bytes := []byte(`
+	{
+		"Name":"Lawson Redeye",
+		"Age":27,
+		"Emails":["lawson@mail.com","redeye@mail.com"]
+	}
+	`)
+	masnun := Person{}
+	err := json.Unmarshal(json_bytes, &masnun)
+	check(err)
+	log.Println(masnun.Name, masnun.Age, masnun.Emails)
+}
+
+func check(e error) {
+	if e != nil {
+		log.Fatalln(e)
+	}
+}
+```
+It is important to note that in Go when Unmarshal'ling a json string into a struct, fields or members of that struct in which isnt defined on the json string are ignored and if available on the json string but the field isnt defined on the struct then the struct object would ignore it during decoding & unmarshalling.
+```Go
+type Person struct {
+	Name   string `json:"name"`
+	Age    int	`json:"age"`
+	Emails []string `json:"emails"`
+	Address string
+}
+
+func main() {
+	json_bytes := []byte(`
+		{
+			"Name":"Lawson Redeye",
+			"Age":27,
+			"Emails":["lawson@mail.com","redeye@mail.com"],
+			"Score":97
+		}
+	`)
+	masnun := Person{}
+	err := json.Unmarshal(json_bytes, &masnun)
+	check(err)
+	log.Println(masnun.Address)
+	// Output:
+	// Nothing
+}
+```
+In the above example, the struct has a field named Address which the JSON doesn’t provide.
+On the other hand, the JSON has the Score key which the struct knows nothing about. In this case, masnun.Address will be empty string.
+
+```Go
+
+func main() {
+	json_bytes := []byte(`
+		{
+			"Name":"Lawson Redeye",
+			"Age":27,
+			"Emails":["lawson@mail.com","redeye@mail.com"],
+			"Score":97
+		}
+	`)
+	
+	var pData map[string]interface{}
+	err := json.Unmarshal(json_bytes, &pData)
+	check(err)
+	log.Println(pData["Score"], pData["Age"], pData["Emails"])
+	// Output:
+	// 97 27 [lawson@mail.com redeye@mail.com]
+}
+
+func check(e error) {
+	if e != nil {
+		log.Fatalln(e)
+	}
+}
+```
+Note: The value of each key in the map is of type interface and if you want to access such data you have to convert it.
+
+## RESOURCES
+1.[working with JSON in GOlang](https://masnun.com/category/golang)
