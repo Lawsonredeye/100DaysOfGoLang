@@ -19,7 +19,7 @@ type Comment struct {
 // Playing with encoding and decoding of json data using the Go Std library.
 func main() {
 	var data []Comment
-	const URL string = "https://jsonplaceholder.typicode.com/comments/id/4" 
+	const URL string = "https://jsonplaceholder.typicode.com/comments" 
 
 	resp, err := http.Get(URL)
 	check(err)
