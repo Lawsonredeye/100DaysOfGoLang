@@ -8,5 +8,5 @@ This is just a basic introduction into web servers in golang.
 
 ## RESOURCE
 1. [How does a webserver work](https://www.youtube.com/watch?v=9J1nJOivdyw&t=53s)
-2.
+2. [Creating a simple web server](https://tutorialedge.net/golang/creating-simple-web-server-with-golang/)
 
