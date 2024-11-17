@@ -1,3 +1,10 @@
+# More on web servers
+Web servers are actually one of the strong suite of golang but learning how to create a web server and understanding how a web server should behave is key.
+
+For today, i'll be doing a little on how to create web servers that serves content, different types of contents using the nt/http library.
+
+Here is a basic http web server that increments a counter when it is called while running:
+```Go
 package main
 
 import (
@@ -27,3 +34,5 @@ func main() {
 	http.HandleFunc("/", echoString)
 	 log.Fatal(http.ListenAndServe(":8080", nil))
 }
+```
+
