@@ -34,13 +34,28 @@ func status(w http.ResponseWriter, r *http.Request) {
 
 	w.Header().Set("Content-Type", "application/json")
 	w.Write(data)
-	// fmt.Fprintf(w, "%v", string(data))
-	// io.WriteString(w, data)
+}
+
+func searchHandler(w http.ResponseWriter, r *http.Request) {
+query := r.URL.Query().Get("q")
+	if query == "" {
+		fmt.Fprintf(w, "Please provide a search query!")
+		return
+	}
+	fmt.Fprintf(w, "You searched for: %s", query)
+}
+
+func userHandler(w http.ResponseWriter, r *http.Request) {
+	path := r.URL.RawPath
+	fmt.Fprintf(w, "User ID: %s", path)
+	fmt.Println(r.URL.RawPath)
 }
 
 func main() {
 	http.HandleFunc("/{$}", welcomeMsg)
 	http.HandleFunc("/status", status)
+	http.HandleFunc("/user", userHandler)
+	http.HandleFunc("/search", searchHandler)
 
 	fmt.Println("Service is running on port 8080")
 	http.ListenAndServe(":8080", nil)
