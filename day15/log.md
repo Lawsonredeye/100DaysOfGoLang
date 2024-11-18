@@ -18,3 +18,6 @@ r (http.Request) is used for understanding the type of reqest that is being rece
 b. Add error handling for routes:
     If /search is accessed without q, respond with "Query parameter is missing."
     If /user/{id} is accessed with an invalid ID (e.g., empty or less than 3 characters), respond with "Invalid User ID."
+
+## Solution
+
