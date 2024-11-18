@@ -20,4 +20,4 @@ b. Add error handling for routes:
     If /user/{id} is accessed with an invalid ID (e.g., empty or less than 3 characters), respond with "Invalid User ID."
 
 ## Solution
-
+[server/](https://github.com/Lawsonredeye/100DaysOfGoLang/tree/main/day15/server)
