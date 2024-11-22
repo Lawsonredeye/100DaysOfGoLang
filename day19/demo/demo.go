@@ -14,3 +14,11 @@ func Split(s, sep string) []string {
 	}
 	return append(result, s)
 }
+
+func Perimeter(width, height float64) float64 {
+	return 2.0 * (width + height)
+}
+
+func Area(base, height int) int {
+	return (base * height) / 2
+}
