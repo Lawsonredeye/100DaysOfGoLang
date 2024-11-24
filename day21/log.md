@@ -38,5 +38,8 @@ func TestPrint(t *testing.T) {
     })
 }
 ```
+## How to run test
+To test your functions, run the command `go test` or `go test -v` (for a more verbose printout).
+
 
 And that is a quick-way to write sub tests in golang. 
