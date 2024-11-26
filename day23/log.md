@@ -15,3 +15,6 @@ To create a package you just need to do the following:
 7. Within your main.go file import your file using the name of the module with the folder name e.g `MODULE_NAME_FOR_YOUR_PROJECT/math`.
 8. Call your method in your main() using the keyword `math._name_of_func_in_package`.
 
+## Resources
+1. [Packages Intro](https://www.golang-book.com/books/intro/11)
+2. [Learning Mocking](https://quii.gitbook.io/learn-go-with-tests/go-fundamentals/mocking)
