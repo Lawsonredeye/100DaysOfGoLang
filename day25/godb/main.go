@@ -4,16 +4,11 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"time"
 
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 )
-
-type Product struct {
-	gorm.Model
-	Code  string
-	Price uint
-}
 
 func main() {
 	USERNAME := os.Getenv("user_name")
@@ -27,21 +22,45 @@ func main() {
 	}
 	log.Println("Database connection was successful...")
 
-	db.AutoMigrate(&Product{})
+	// Creating Records
+	type User struct {
+		ID       uint
+		Name     string `gorm:"unique"`
+		Age      int
+		Birthday time.Time
+	}
+	db.AutoMigrate(&User{})
 
-	db.Create(&Product{Code: "D42", Price: 100})
-	db.Create(&Product{Code: "r-643", Price: 291})
+	// user := []User{
+	// 	{Name: "Lawson", Age: 43, Birthday: time.Now()},
+	// 	{Name: "Kelvin", Age: 23, Birthday: time.Now()},
+	// 	{Name: "Anthony", Age: 46, Birthday: time.Now()},
+	// }
 
-	// var product Product
-	// result := db.First(&product, 1)
-	// db.First(&product, "code = ?", "D42")
+	// for _, val := range user {
+	// 	result := db.Create(&val)
 
-	// // update multiple field
+	// 	fmt.Println(val.ID)
+	// 	fmt.Println("found errors:", result.Error)
+	// }
 
-	// db.Model(&product).Updates(Product{Price: 200, Code: "F42"})
-	// db.Model(&product).Updates(map[string]interface{}{"Price": 200, "Code": "f42"})
+	// Batch insert into db
+	// db.Model(&User{}).Create(map[string]interface{}{
+	// 	"Name": "Sinzhu Money", "Age": 32,
+	// })
 
-	// db.Delete(&product, 1)
+	// db.Model(&User{}).Create([]map[string]interface{}{
+	// 	{"Name": "Jinzhu Smith", "Age": 21},
+	// 	{"Name": "Kinzhu Kelly", "Age": 31},
+	// })
 
-	// fmt.Println(result.RowsAffected)
+	// Querying
+	var user = User{ID: 12}
+	result := db.Find(&user)
+	fmt.Println(result.Error)
+	if result.Error == nil {
+		fmt.Println(user.Name)
+	} else {
+		log.Println("No user with such id")
+	}
 }
