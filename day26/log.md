@@ -74,7 +74,16 @@ result.RowsAffected // returns found records count, equals `len(users)`
 result.Error        // returns error
 ```
 
+### Update Object && record
+```Go
+db.Model(&User{}).Where("name = ?", batman).Update("name = ?", "lawson")
+```
 
+### Deleting records
+deleting records using it id field.
+```Go
+db.Delete(&User{ID: 7})
+```
 ## RESOURCES
 1. [GORM - Quick Guide and installation](https://gorm.io/docs/index.html)
 2. [Gorm package - go](https://pkg.go.dev/gorm.io/gorm#section-readme)
