@@ -11,11 +11,10 @@ import (
 )
 
 type User struct {
-	gorm.Model
-
-	Name     string `gorm:"name"`
+	ID       uint
+	Name     string `gorm:"unique"`
+	Age      int
 	Birthday time.Time
-	Age      int `gorm:"age"`
 }
 
 func main() {
@@ -23,17 +22,37 @@ func main() {
 	URL := os.Getenv("DB_USER") + ":" + os.Getenv("DB_PWD") + "@tcp(127.0.0.1:3306)/moshdb"
 	db := ConnectDB(URL)
 
-	log.Println("DB connected successfully..")
+	var user User
 
-	var user = User{Name: "lawson"}
-	db.Model(&User{}).First(user)
+	db.Model(&User{}).Find(&user)
+	// db.Where("name Like ?", "%h%").Find(&user)
+	// db.Where(&User{Name: "Sinzhu"}).Find(&user)
+	// db.Find(&user)
+	// db.Find(&user)
 
-	log.Println(user.Name)
+	// db.Where("name LIKE ?", "%hu%").First(&user)
 
-	result := map[string]interface{}{}
-	db.Table("users").Take(&result)
+	// fmt.Printf("%v\n", user)
 
-	fmt.Printf("%v\n", result)
+	// user.Name = "Don"
+	// user.Age = 34
+	// db.Save(&User{ID: 7, Name: "Don"})
+	db.Model(&User{}).Where("id = ?", 7).Update("name", "Nightwing")
+	db.Model(&User{}).Where("id = ?", 13).Update("name", "Wonderwoman")
+	db.Model(&User{}).Where("id = ?", 1).Update("name", "Batman")
+	db.Model(&User{}).Where("id = ?", 15).Update("name", "Superman")
+
+	db.Save(&User{ID: 1, Name: "BeastBoy", Age: 19})
+
+	var userOne User
+	db.First(&userOne)
+
+	userOne.Name = "MrNobody"
+	userOne.Age = 39
+
+	fmt.Println(userOne.Name)
+	// db.Delete(&userOne)
+	db.Delete(&User{ID: 7})
 }
 
 func ConnectDB(URL string) gorm.DB {
