@@ -6,11 +6,23 @@ import (
 	"io"
 	"log"
 	"net/http"
+	"os"
+	"time"
+
+	"gorm.io/driver/mysql"
+	"gorm.io/gorm"
 )
 
 type User struct {
 	Name     string
 	Password string
+}
+
+type DBUser struct {
+	Name     string
+	Birthday time.Time
+	Age      int
+	ID       uint
 }
 
 var ExistingUser = User{
@@ -19,23 +31,18 @@ var ExistingUser = User{
 }
 
 func Login(w http.ResponseWriter, r *http.Request) {
-
-	// r.Body.Close()
-
-	// username := r.PostFormValue("name")
-	// userpwd := r.PostFormValue("password")
-
-	// fmt.Println(username, userpwd)
-	// if username != User.Name && userpwd != User.Password {
-	// 	http.Error(w, "401, User not authorized", http.StatusUnauthorized)
-	// 	return
-	// }
-
-	// w.WriteHeader(200)
-
 	defer r.Body.Close()
 	var validate User
 	res, _ := io.ReadAll(r.Body)
+	// user:pwd@tcp(localhost:3306)/moshdb
+	url := os.Getenv("db_user") + ":" + os.Getenv("db_pwd") + "@tcp(localhost:3306)/moshdb"
+
+	db, err := gorm.Open(mysql.Open(url), &gorm.Config{})
+	checkErr(err)
+
+	var user DBUser
+
+	db.Model(DBUser).Find(&user)
 
 	_ = json.Unmarshal(res, &validate)
 	// fmt.Println(validate)
@@ -51,4 +58,10 @@ func Login(w http.ResponseWriter, r *http.Request) {
 
 func Welcome(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprint(w, "Hello, user!")
+}
+
+func checkErr(e error) {
+	if e != nil {
+		log.Fatalln(e)
+	}
 }
