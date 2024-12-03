@@ -24,6 +24,7 @@ URL SHORTNER IN GO
 ## Whats Next?
 I have been able to map out the functions needed for creating the url shortener, the next step is to create a web server that would be responsible for hashing and also adding a frontend using basic html and css. 
 
+And this is my plan for celebrating my 30th DayOfGolang.. Give this repo a star to support my development.
 
 ## Resources
 1. [How to build a url shortener](https://www.linkedin.com/pulse/building-url-shortener-using-hash-functions-base62-conversion-singh-y01oc/)
