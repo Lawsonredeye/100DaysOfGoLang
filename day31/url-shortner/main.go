@@ -8,5 +8,6 @@ import (
 
 func main() {
 	http.HandleFunc("/create", view.CreateLink)
-	log.Fatal(http.ListenAndServe(":8000", nil))
+	log.Println("Server is running on port 8000")
+	http.ListenAndServe(":8000", nil)
 }
