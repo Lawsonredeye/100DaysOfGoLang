@@ -9,7 +9,7 @@ import (
 	"gorm.io/gorm"
 )
 
-var URL string = os.Getenv("db_user") + ":" + os.Getenv("db_pwd") + "@tcp(127.0.0.1)/shortlinkdb"
+var URL string = os.Getenv("db_user") + ":" + os.Getenv("db_pwd") + "@tcp(127.0.0.1)/shortlinkdb?parseTime=true"
 
 // Connects to the MySQL DB and performs auto migrations for you.
 func ConnectDB() (*gorm.DB, error) {
