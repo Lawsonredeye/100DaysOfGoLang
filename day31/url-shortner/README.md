@@ -33,3 +33,5 @@ I plan on implementing a basic frontend for this project instead of running it w
 ## Stacks Used in this project
 1. Go
 2. MySQL
+
+Further updates would be done to this repository. That's a wrap for now.
