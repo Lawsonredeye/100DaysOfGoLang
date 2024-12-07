@@ -1,8 +1,8 @@
-    # More on Docker!
+# More on Docker!
 
-    So today, i'll be diving into some concepts of docker and how to use the docker command on the command line.
+So today, i'll be diving into some concepts of docker and how to use the docker command on the command line.
 
-    ```Docker
+```Dockerfile
     docker ps # list all running containers
 
     docker ps -a # both running and exited containers
@@ -16,4 +16,4 @@
     docker logs NAME_OF_CONTAINER # Fetch the logs of a container
 
     docker start NAME_OF_CONTAINER # Starts container in detach mode without fetching logs 
-    ``` 
+```
