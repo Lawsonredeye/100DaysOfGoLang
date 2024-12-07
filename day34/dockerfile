@@ -4,4 +4,8 @@ WORKDIR /app
 
 COPY . .
 
-CMD [ "go", "main.go" ]
+# CMD [ "go", "main.go" ]
+
+RUN go build -v -o /usr/local/bin/app /app
+
+CMD [ "./main" ]
