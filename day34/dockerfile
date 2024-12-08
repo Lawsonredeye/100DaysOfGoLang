@@ -8,4 +8,4 @@ COPY . .
 
 RUN go build -v -o /usr/local/bin/app /app
 
-CMD [ "./helloapp" ]
+CMD [ "app" ]
