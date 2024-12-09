@@ -2,19 +2,23 @@ package main
 
 import (
 	"fmt"
-	"time"
+	"sync"
 )
 
 func main() {
-	go helloworld()
-	go goodbye()
-	time.Sleep(2 * time.Second)
+	var wg sync.WaitGroup
+	wg.Add(2)
+	go helloworld(&wg)
+	go goodbye(&wg)
+	wg.Wait()
 }
 
-func helloworld() {
+func helloworld(wg *sync.WaitGroup) {
+	defer wg.Done()
 	fmt.Println("Hello World!")
 }
 
-func goodbye() {
+func goodbye(wg *sync.WaitGroup) {
+	defer wg.Done()
 	fmt.Println("Good Bye!")
 }
