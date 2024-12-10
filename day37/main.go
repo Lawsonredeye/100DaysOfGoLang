@@ -23,5 +23,10 @@ func main() {
 	uniChan := make(chan<- int)
 	go sendOnlyChan(uniChan)
 
-	fmt.Println(<-uniChan) // Would panic as uniChan can only be written to and not read from
+	//fmt.Println(<-uniChan) // Would panic as uniChan can only be written to and not read from
+
+	biDirectionalChan := make(chan int)
+
+	go sendOnlyChan(biDirectionalChan)
+	fmt.Println(<-biDirectionalChan) // Works as the channel can be written to and read from
 }
