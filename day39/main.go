@@ -2,40 +2,40 @@ package main
 
 import (
 	"fmt"
+	"time"
 )
 
-func write(ch chan int) {
-	for i := 0; i < 5; i++ {
-		ch <- i
-		fmt.Println("Successfully wrote", i, "to ch")
+// Worker processor for handling the job passed into the channel
+func worker(id int, jobs <-chan int, results chan<- int) {
+
+	// loops through the jobs channel and then carry out a task.
+	for j := range jobs {
+		fmt.Println("worker", id, "processing job", j)
+		time.Sleep(time.Second)
+		results <- j * 2
 	}
-	close(ch)
 }
 
-// Buffered Channels
-// func main() {
-// 	// ch := make(chan string, 2)
-// 	// ch <- "lawson"
-// 	// ch <- "redeye"
-
-// 	// fmt.Println(<-ch)
-// 	// fmt.Println(<-ch)
-// 	ch := make(chan int, 2)
-// 	go write(ch)
-// 	time.Sleep(2 * time.Second)
-
-// 	for v := range ch {
-// 		fmt.Println("Read value", v, "from ch")
-// 		time.Sleep(2 * time.Second)
-// 	}
-// }
-
-// Creating deadlocks with channels
 func main() {
-	ch := make(chan string, 2)
+	// Simulates the number of jobs to be carried out by the goroutine
+	jobs := make(chan int, 100)
 
-	ch <- "lawson"
-	ch <- "redeye"
-	ch <- "Agent"
-	fmt.Println(<-ch)
+	// results from each jobs
+	results := make(chan int, 100)
+
+	// Spawns 3 workers for handling the jobs
+	for w := 1; w <= 3; w++ {
+		go worker(w, jobs, results)
+	}
+
+	// fills the jobs channel with the the value of j
+	for j := 1; j <= 9; j++ {
+		jobs <- j
+	}
+
+	close(jobs)
+
+	for a := 1; a <= 9; a++ {
+		<-results
+	}
 }
