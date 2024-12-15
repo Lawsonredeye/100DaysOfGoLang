@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"fmt"
 	"log"
+	"log/slog"
 	"os"
 )
 
@@ -33,4 +34,13 @@ func main() {
 	buflog := log.New(&buf, "buf:", log.LstdFlags)
 	buflog.Println("Hello from custom outputs")
 	fmt.Print("from buflog:", buf.String())
+
+	// logging with slog in a json format
+	jsonHandler := slog.NewJSONHandler(os.Stderr, nil)
+	myslog := slog.New(jsonHandler)
+	myslog.Info("Here we go again")
+
+	fmt.Println()
+
+	myslog.Info("hello again", "key", "val", "age", 25)
 }
