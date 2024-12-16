@@ -20,8 +20,41 @@ func (t *Tree) InsertChild(value int) {
 				t = t.RightChild
 			}
 		}
-		// t
+		t.Value = value
+	} else {
+		for t.RightChild != nil {
+			if value < t.Value {
+				t = t.LeftChild
+			} else {
+				t = t.RightChild
+			}
+		}
+		t.Value = value
 	}
+}
+
+func (t *Tree) Find(value int) bool {
+	// check if the tree is nil
+	if t == (&Tree{}) {
+		return false
+	}
+
+	// if we found it at the root node
+	if t.Value == value {
+		return true
+	}
+
+	for t != (&Tree{}) {
+		if value < t.Value {
+			t = t.LeftChild
+		} else {
+			t = t.RightChild
+		}
+		if t.Value == value {
+			return true
+		}
+	}
+	return false
 }
 
 func main() {
@@ -30,5 +63,13 @@ func main() {
 	// right > parent
 	// [10, 5, 15, 6, 1, 8, 12, 18, 17]
 
+	var tree = &Tree{Value: 5}
+
+	// adding child nodes
+	tree.InsertChild(10)
+	tree.InsertChild(15)
+
+	// finding values
+	tree.Find(15)
 	fmt.Println("bsh")
 }
