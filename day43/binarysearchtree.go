@@ -44,14 +44,14 @@ func (t *Tree) Find(value int) bool {
 		return true
 	}
 
-	for t != (&Tree{}) {
+	for t != nil {
+		if t.Value == value {
+			return true
+		}
 		if value < t.Value {
 			t = t.LeftChild
 		} else {
 			t = t.RightChild
-		}
-		if t.Value == value {
-			return true
 		}
 	}
 	return false
@@ -70,6 +70,7 @@ func main() {
 	tree.InsertChild(15)
 
 	// finding values
-	tree.Find(15)
+	fmt.Println(tree.Find(15)) // outputs: true
+	fmt.Println(tree.Find(16)) // expect: false
 	fmt.Println("bsh")
 }
