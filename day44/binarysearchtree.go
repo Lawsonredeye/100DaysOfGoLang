@@ -11,32 +11,49 @@ type Tree struct {
 // Edge cases:
 // tree is empty, leftchild & rightchild are empty
 // leftchild & rightchild are not empty so we loop
-func (t *Tree) InsertChild(value int) {
-	// Check if the tree is an empty tree with no value
-	if t == nil {
+// func (t *Tree) InsertChild(value int) {
+// 	// Check if the tree is an empty tree with no value
+// 	if t == nil {
+// 		newNode := &Tree{Value: value}
+// 		fmt.Println("New node created:", newNode.Value)
+// 		t = newNode
+// 		return
+// 	}
+
+// 	if value < t.Value {
+// 		for t.LeftChild != nil {
+// 			if value < t.Value {
+// 				t = t.LeftChild
+// 			} else {
+// 				t = t.RightChild
+// 			}
+// 		}
+// 		t.Value = value
+// 	} else {
+// 		for t.RightChild != nil {
+// 			if value < t.Value {
+// 				t = t.LeftChild
+// 			} else {
+// 				t = t.RightChild
+// 			}
+// 		}
+// 		t.Value = value
+// 	}
+// }
+
+func InsertChild(t **Tree, value int) {
+	if *t == nil {
+		// create a new node if tree is nil
 		newNode := Tree{Value: value}
-		t = &newNode
+		fmt.Println("Added new node:", newNode.Value)
+		*t = &newNode
 		return
 	}
 
-	if value < t.Value {
-		for t.LeftChild != nil {
-			if value < t.Value {
-				t = t.LeftChild
-			} else {
-				t = t.RightChild
-			}
-		}
-		t.Value = value
+	if value > (*t).Value {
+		InsertChild(&(*t).LeftChild, value)
 	} else {
-		for t.RightChild != nil {
-			if value < t.Value {
-				t = t.LeftChild
-			} else {
-				t = t.RightChild
-			}
-		}
-		t.Value = value
+		InsertChild(&(*t).RightChild, value)
 	}
 }
 
@@ -46,23 +63,39 @@ func (t *Tree) Find(value int) bool {
 		return false
 	}
 
-	// if we found it at the root node
-	if t.Value == value {
-		return true
-	}
+	temp := t
 
-	for t != nil {
-		if t.Value == value {
+	count := 0
+	for temp != nil {
+		count += 1
+		if temp.Value == value {
 			return true
 		}
-		if value < t.Value {
-			t = t.LeftChild
+		if value > temp.Value {
+			fmt.Println("Going Left")
+			fmt.Println("leftChild:", temp.LeftChild)
+			fmt.Println("value:", temp.Value)
+			fmt.Println("rightChild:", temp.RightChild)
+			temp = temp.LeftChild
 		} else {
-			t = t.RightChild
+			fmt.Println("Going Right")
+			temp = temp.RightChild
+			fmt.Println("leftChild:", temp.LeftChild)
+			fmt.Println("value:", temp.Value)
+			fmt.Println("rightChild:", temp.RightChild)
 		}
+		fmt.Println("Iteration:", count)
 	}
 	return false
 }
+
+// func Find(t **Tree,  value int) bool {
+// 	if *t == nil {
+// 		return False
+// 	}
+
+// 	t.Find
+// }
 
 func traversePreOrder(t *Tree) {
 	// Root -> Left -> Right
@@ -83,7 +116,7 @@ func main() {
 	// childValues := []int{10, 15, 6, 1, 8, 12, 18, 17}
 
 	var tree = &Tree{Value: 5}
-	var emptyTree Tree
+	var emptyTree *Tree
 
 	// adding child nodes
 
@@ -92,22 +125,27 @@ func main() {
 	// 	tree.InsertChild(child)
 	// }
 
-	tree.InsertChild(15)
-	tree.InsertChild(8)
-	tree.InsertChild(7)
-	tree.InsertChild(4)
-	tree.InsertChild(2)
-	tree.InsertChild(3)
+	InsertChild(&tree, 15)
+	InsertChild(&tree, 8)
+	InsertChild(&tree, 7)
+	InsertChild(&tree, 4)
+	InsertChild(&tree, 2)
+	InsertChild(&tree, 3)
 
 	// finding values
-	fmt.Println(tree.Find(2)) // expect: true
-	fmt.Println(tree.Find(3)) // expect: false
+	fmt.Println("")
+	fmt.Println(tree.Find(5)) // expect: true
+	fmt.Println()
+	fmt.Println(tree.Find(3)) // expect: true
 
+	fmt.Println()
+	fmt.Println()
 	// Tree traversal
+	fmt.Println("Tree Traversal")
 	traversePreOrder(tree)
 
 	fmt.Println("Testing for empty tree")
-	emptyTree.InsertChild(18)
+	InsertChild(&emptyTree, 18)
 
-	fmt.Println(emptyTree.Find(17))
+	fmt.Println(emptyTree.Find(18))
 }
