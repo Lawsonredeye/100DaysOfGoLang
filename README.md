@@ -6,6 +6,9 @@ This would be quite interesting as i would be using the roadmap from [roadmap.sh
 
 Tasks/mini projects would be added upon each week to further solidify my memory.
 
+## Project Built
+1. URL Shortener - Using Gorm, mysql and the net/http standard library to create a link shortner for everyone.
+
 ---
 ## Docs & Logs
 Documentation would be stored inside a *logs.md* be sure to check them to see added info about each day.
