@@ -1,10 +1,9 @@
 package router
 
-
 type Task struct {
-	Name string
-	ID int
-	Status bool
+	Name   string `json:"name"`
+	ID     int    `json:"id"`
+	Status bool   `json:"status"`
 }
 
-var AllTasks []Task
+var AllTasks = make([]Task, 0)
