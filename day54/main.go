@@ -1,15 +1,15 @@
 package main
 
 import (
-	"fmt"
+	r "todoapp/app"
+
 	"github.com/gin-gonic/gin"
-	r "todoapp/app"	
 )
 
 func main() {
-	fmt.Println("Helloo todo app")
 	router := gin.Default()
 
-	router.POST("/task", r.CreateTask)
+	router.POST("/tasks", r.CreateTask)
+	router.GET("/tasks", r.GetTask)
 	router.Run()
 }
