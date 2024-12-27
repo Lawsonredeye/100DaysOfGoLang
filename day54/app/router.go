@@ -2,10 +2,12 @@ package router
 
 import (
 	"fmt"
+	"log"
+
 	"github.com/gin-gonic/gin"
 )
 
-func CreateTask(c *gin.Context){
+func CreateTask(c *gin.Context) {
 	newTask := Task{}
 	err := c.BindJSON(&newTask)
 
@@ -14,7 +16,15 @@ func CreateTask(c *gin.Context){
 		return
 	}
 
-	fmt.Printf("%+v\n\n", newTask)
-	c.Status(201)
+	newTask.ID = len(AllTasks)
 
+	fmt.Printf("%+v task added successfully!\n\n", newTask)
+
+	AllTasks = append(AllTasks, newTask)
+	c.Status(201)
+}
+
+func GetTask(c *gin.Context) {
+	c.JSON(200, AllTasks)
+	log.Printf("%+v\n", AllTasks)
 }
