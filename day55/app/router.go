@@ -64,13 +64,15 @@ func UpdateTaskByID(c *gin.Context) {
 	for _, val := range AllTasks {
 		if id == val.ID {
 			newData := Task{}
-			err := c.BindJSON(newData)
+			err := c.BindJSON(&newData)
 			if err != nil {
 				c.AbortWithError(http.StatusGatewayTimeout, err)
 				return
 			}
 			val.Title = newData.Title
+
 			val.Description = newData.Description
+			AllTasks[id] = val
 			c.JSON(http.StatusOK, val)
 			return
 		}
