@@ -33,10 +33,16 @@ func GetTask(c *gin.Context) {
 
 // GetTaskByID fetches the task by the specified ID from the in memory db (array).
 func GetTaskByID(c *gin.Context) {
-	id := c.Param("id")
+	stringID := c.Param("id")
+	id, err := strconv.Atoi(stringID)
+
+	if err != nil {
+		c.AbortWithStatusJSON(401, "Invalid Task ID")
+		return
+	}
 
 	for _, val := range AllTasks {
-		if strconv.Atoi(id) == val.ID {
+		if id == val.ID {
 			c.JSON(200, val)
 			return
 		}
