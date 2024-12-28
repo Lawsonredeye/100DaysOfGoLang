@@ -3,6 +3,7 @@ package router
 import (
 	"fmt"
 	"log"
+	"strconv"
 
 	"github.com/gin-gonic/gin"
 )
@@ -35,7 +36,7 @@ func GetTaskByID(c *gin.Context) {
 	id := c.Param("id")
 
 	for _, val := range AllTasks {
-		if int(id) == val.ID {
+		if strconv.Atoi(id) == val.ID {
 			c.JSON(200, val)
 			return
 		}
