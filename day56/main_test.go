@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/json"
 	"net/http"
 	"net/http/httptest"
 	"testing"
@@ -16,5 +17,23 @@ func TestGetUser(t *testing.T) {
 
 	if w.Code != http.StatusOK {
 		t.Errorf("expected 200, got %v\n", w.Code)
+	}
+}
+
+type User struct {
+	Name     string `json:"name"`
+	CodeName string `json:"codename"`
+}
+
+func TestGetUserData(t *testing.T) {
+	w := httptest.NewRecorder()
+	c, _ := gin.CreateTestContext(w)
+	GetUser(c)
+	// body, _ := io.ReadAll(w.Body)
+	user := User{}
+	_ = json.NewDecoder(w.Body).Decode(&user)
+
+	if user.Name != "lawsonredeye" {
+		t.Errorf("expected lawsonredeye, got %v\n", user.Name)
 	}
 }
