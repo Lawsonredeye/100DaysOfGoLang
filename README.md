@@ -9,6 +9,8 @@ Tasks/mini projects would be added upon each week to further solidify my memory.
 ## Project Built
 1. URL Shortener - Using Gorm, mysql and the net/http standard library to create a link shortner for everyone.
 
+2. TO-DO App: using the gin-gonic library to build a simple to Todo RESTful API application for creating tasks as well as adding descriptions too
+
 ---
 ## Docs & Logs
 Documentation would be stored inside a *logs.md* be sure to check them to see added info about each day.
