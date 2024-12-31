@@ -1,9 +1,11 @@
 package router
 
 import (
+	"encoding/json"
 	"fmt"
 	"log"
 	"net/http"
+	"os"
 	"strconv"
 
 	"github.com/gin-gonic/gin"
@@ -23,13 +25,20 @@ func CreateTask(c *gin.Context) {
 	fmt.Printf("%+v task added successfully!\n\n", newTask)
 
 	AllTasks = append(AllTasks, newTask)
+
+	data, _ := json.Marshal(AllTasks)
+	_ = os.WriteFile("res.json", data, 0666)
+
 	c.JSON(201, nil)
 }
 
 // GetTask fetches all tasks from the in-memory database.
 func GetTask(c *gin.Context) {
-	c.JSON(200, AllTasks)
-	log.Printf("%+v\n", AllTasks)
+	fileJson, _ := os.ReadFile("res.json")
+	byteData, _ := json.Marshal(fileJson)
+	//c.JSON(200, AllTasks)
+	c.JSON(200, byteData)
+	log.Printf("%+v\n", byteData)
 }
 
 // GetTaskByID fetches the task by the specified ID from the in memory db (array).
