@@ -17,7 +17,7 @@ func main() {
 		})
 	})
 
-	r.GET("/login", Login)
+	r.POST("/login", Login)
 
 	r.Run()
 }
