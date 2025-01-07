@@ -1,0 +1,33 @@
+body {
+  color: green;
+}
+
+h1 {
+  font-weight: 900;
+  font-family: monospace;
+
+  text-align: center;
+}
+
+form {
+  text-align: center;
+  color: black;
+
+  margin-top: 20px;
+}
+
+button {
+  color: white;
+  background-color: blue;
+
+  padding: 10px;
+  
+  width: 300px;
+  margin: 0 auto;
+
+  border: 1px solid white;
+  border-radius: 10px;
+  
+  display: grid;
+  place-items: center;
+}
