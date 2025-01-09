@@ -1,0 +1,48 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.menu-bar {
+  display: flex;
+  
+  justify-content: space-between;
+  flex-flow: row nowrap;
+
+  padding: 10px 45px;
+  margin-top: 20px;
+  margin-right: 50px;
+  border: 2px solid red;
+
+  width: 600px;
+}
+
+.options {
+  display: flex;
+  justify-content: space-between;
+  flex-flow: row nowrap;
+
+  width: 300px;
+}
+
+.favicon {
+  font-weight: bold;
+}
+
+.body-container {
+  margin-top: 20px;
+}
+
+.hero-container {
+  margin-top: 50px;
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+
+  justify-content:center ;
+  align-content: space-between;
+
+  border: 2px solid green;
+  text-align: center;
+}
