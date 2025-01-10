@@ -50,3 +50,7 @@ func GetTaskByID(c *gin.Context) {
 	res := map[string]string{"error": "Task not found"}
 	c.AbortWithStatusJSON(402, res)
 }
+
+func UpdateTaskByID(c *gin.Context) {
+	stringID := c.Param
+}
