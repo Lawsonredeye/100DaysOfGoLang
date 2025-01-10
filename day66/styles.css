@@ -1,0 +1,71 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+h1 {
+  font-family: Luminari, fantasy;
+  font-size: 60px;
+  font-style: italic;
+
+  text-align: center;
+  text-transform: uppercase;
+
+  margin-top: 20px;
+}
+
+.container {
+  overflow: hidden;
+}
+
+.section-1,
+.section-2 {
+  margin: 0 auto;
+
+  padding-top: 20px;
+  padding-left: 25px;
+  padding-right: 25px;
+
+  overflow: hidden;
+}
+
+.image-1 {
+  float: left;
+  border-radius: 10px;
+  background-color: blue;
+
+  width: 450px;
+  height: 900px;
+}
+
+.image-2 {
+  float: left;
+  
+  border-radius: 10px;
+  background-color: red;
+
+  width: 450px;
+  height: 900px;
+
+  margin-top: 20px;
+  margin-left: 15px;
+}
+
+.section-1 .image-1 {
+  background-image: url('img/spidy-portrait-1.jpg');
+}
+
+.section-1 .image-2 {
+  background-image: url('img/spidy-portrait-2.jpg');
+  background-repeat: no-repeat;
+  background-position: top right;
+}
+
+.section-2 .image-1 {
+  background-image: url('img/spidy-portrait-3.jpg');
+}
+
+.section-2 .image-2 {
+  background-image: url('img/spidy-portrait-4.jpg');
+}
