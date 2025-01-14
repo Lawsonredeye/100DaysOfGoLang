@@ -53,7 +53,7 @@ li:last-of-type {
 	flex-direction: column;
 	
 	text-align: center;
-	padding-top: 40px;
+	padding: 40px;
 }
 
 .second-section-width {
@@ -87,12 +87,45 @@ p {
 	height: max-content;
 }
 
+.pf-section {
+	width: 400px;
+	height: max-content;
+}
+
 .profile-photo {
-	border-radius: 50%;
-	width: 200px;
-	height: 200px;
+	border-radius: 100%;
+	width: 100%;
+	height: auto;
 }
 
 h2 {
+	margin-top: 30px;
+	padding-top: 15px;
 	text-align: center;
+	font-size: 2em;
+}
+
+.third-section {
+	padding-top: 20px;
+	display: flex;	
+	justify-content: center;
+	align-content: center;
+}
+
+.third-section p {
+	font-weight: 100;
+	font-size: 1.9em;
+	text-align: center;
+}
+
+.footer {
+	background-color: #C9D5C3;
+	height: 100px;
+	display: flex;
+	justify-content: center;
+	align-items: flex-end;
+}
+
+.footer p {
+	font-size: 16px;
 }
