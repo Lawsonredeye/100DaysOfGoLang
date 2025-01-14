@@ -1,0 +1,14 @@
+{
+  "languageserver": {
+    "go": {
+      "command": "gopls",
+      "rootPatterns": ["go.mod", ".git/"],
+      "filetypes": ["go", "gomod"]
+    }
+  },
+  "go.enable": true,
+  "go.goplsOptions": {
+    "staticcheck": true
+  }
+}
+
