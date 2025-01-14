@@ -1,0 +1,29 @@
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+.element {
+	height: 200px;
+	width: 200px;
+	background: #0071ff;
+
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-family: Poppins;
+	font-weight: 700;
+	font-size: 1.35rem;
+	color: white;
+}
+
+@keyframes spin{
+	0% {
+
+	}
+	100% {
+		transform: rotate(360deg);
+		border-radius: 50%;
+	}
+}
