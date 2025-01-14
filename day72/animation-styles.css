@@ -4,6 +4,11 @@
 	box-sizing: border-box;
 }
 
+.container {
+	display: flex;
+	justify-content: center;
+}
+
 .element {
 	height: 200px;
 	width: 200px;
@@ -16,6 +21,9 @@
 	font-weight: 700;
 	font-size: 1.35rem;
 	color: white;
+
+	animation-duration: 3s;
+	animation-name: spin;
 }
 
 @keyframes spin{
