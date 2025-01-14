@@ -1,0 +1,98 @@
+@font-face {
+    font-family: 'Overpass Mono';
+	src: url(fonts/OverpassMono-VariableFont_wght.ttf);
+}
+
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+body {
+	font-family: "Overpass Mono";
+}
+
+.container {
+	padding: 0 20px;
+	height: 70px;
+
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	
+	background: #F5F5F5;
+	color: #1F271B;
+	
+	position: fixed;
+	width: 100%;
+}
+
+.menu {
+	display: flex;
+	flex-direction: row;
+	list-style: none;
+	
+	justify-content: space-evenly;
+	gap: 30px;
+}
+
+li:last-of-type {
+	margin-right: 100px;
+}
+
+.illustration {
+	width: 100%;
+}
+
+.second-section {
+	background: #F5F5F5;
+	height: 300px;
+
+	display: flex;
+	flex-direction: column;
+	
+	text-align: center;
+	padding-top: 40px;
+}
+
+.second-section-width {
+	margin: 0 auto;	
+	padding: 0 28px;
+}
+
+p {
+	font-weight: 900;
+	font-size: 3em;
+}
+
+.sub-info {
+	font-weight: 200;
+	font-size: 1.9em;
+
+	padding-top: 35px;
+}
+
+.thumbnail-images {
+	display: flex;
+	flex-wrap: wrap;
+	margin-top: 20px;
+	gap: 25px;
+	justify-content: space-evenly;
+	align-content: center;
+}
+
+.img-container {
+	width: 400px;
+	height: max-content;
+}
+
+.profile-photo {
+	border-radius: 50%;
+	width: 200px;
+	height: 200px;
+}
+
+h2 {
+	text-align: center;
+}
