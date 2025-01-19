@@ -1,9 +1,9 @@
 -- Database schema for go-ecommerce API
 
-CREATE DATABASE IF NOT EXISTS go-ecommerce-db;
+CREATE DATABASE IF NOT EXISTS go_ecommerce_db;
 
 -- switch to the go-ecommerce-db
-USE go-ecommerce-db;
+USE go_ecommerce_db;
 
 -- Users information schema
 CREATE TABLE IF NOT EXISTS users (
@@ -40,7 +40,7 @@ CREATE TABLE IF NOT EXISTS products (
 	updated_at datetime,
 
 	primary key(id),
-	foreign key(category_id) references categories(id), 
+	foreign key(category_id) references categories(id) 
 );
 
 -- creating table for orders
@@ -53,7 +53,7 @@ CREATE TABLE IF NOT EXISTS orders (
 	updated_at dateime,
 
 	primary key(id),
-	foreign key(category_id) references category(id), 
+	foreign key(category_id) references category(id) 
 );
 
 CREATE TABLE IF NOT EXISTS order_items (
