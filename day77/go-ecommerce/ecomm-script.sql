@@ -48,12 +48,12 @@ CREATE TABLE IF NOT EXISTS orders (
 	id int auto_increment,
 	user_id int,
 	total_amount int,
-	status string,
+	status varchar(20),
 	created_at datetime,
-	updated_at dateime,
+	updated_at datetime,
 
 	primary key(id),
-	foreign key(category_id) references category(id) 
+	foreign key(user_id) references users(id) 
 );
 
 CREATE TABLE IF NOT EXISTS order_items (
