@@ -2,6 +2,7 @@ package main
 
 import (
 	"go-commerce/controller"
+	"go-commerce/model"
 
 	"github.com/gin-gonic/gin"
 )
@@ -9,6 +10,8 @@ import (
 func main() {
 	r := gin.Default()
 
-	r.GET("/signup", controller.CreateAccount)
+	model.DB.AutoMigrate(&model.Users{})
+
+	r.POST("/signup", controller.CreateAccount)
 	r.Run(":5050")
 }
