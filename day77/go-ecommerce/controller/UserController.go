@@ -13,6 +13,8 @@ import (
 	"golang.org/x/crypto/bcrypt"
 )
 
+const CookieToken = "JWT_TOKEN"
+
 // CreateAccount handles the creation of a new user account.
 // Use the POST request and accept a content-type: application/json,
 // typically contain the user details e.g (username, password, email).
@@ -56,12 +58,12 @@ func CreateAccount(c *gin.Context) {
 	model.DB.Where("username = ?", user.Username).First(&resultUser)
 
 	if resultUser.Username != "" {
-			c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
+		c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
 			"error": "Username already exists",
 		})
 		return
 	}
-	
+
 	var emailUser model.Users
 	model.DB.Where("email = ?", user.Email).First(&emailUser)
 
@@ -103,7 +105,7 @@ func CreateAccount(c *gin.Context) {
 // Parameter:
 // - c : *gin.Context - GIN framework
 // Response:
-// - HTTP 200: Successfully signed in. 
+// - HTTP 200: Successfully signed in.
 // - HTTP 401: User is unauthorized.
 // - HTTP 500: Unable to assign JWT
 func Login(c *gin.Context) {
@@ -119,7 +121,7 @@ func Login(c *gin.Context) {
 	c.BindJSON(&authUser)
 
 	if authUser.Username == "" || authUser.PasswordHash == "" {
-		c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"error":"Username or password field cant be empty"})
+		c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"error": "Username or password field cant be empty"})
 		return
 	}
 
@@ -133,7 +135,7 @@ func Login(c *gin.Context) {
 
 	// check if the password is valid if not return 401 unauthorized
 	if bcrypt.CompareHashAndPassword([]byte(foundUser.PasswordHash), []byte(authUser.PasswordHash)) != nil {
-		c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"error":"User is not authorized"})
+		c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"error": "User is not authorized"})
 		return
 	}
 
@@ -144,17 +146,32 @@ func Login(c *gin.Context) {
 		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error": "Unable to assign token for user"})
 		return
 	}
-	c.SetCookie(authUser.Username, token, 24000, "", "", false, true)
+	c.SetCookie(CookieToken, token, 24000, "", "", false, true)
 
 	// return response that user is logged in successfully.
-	c.JSON(http.StatusCreated, gin.H{"msg":"Login successful."})
-	
+	c.JSON(http.StatusCreated, gin.H{"msg": "Login successful."})
+
+}
+
+// Logout logs out the user from the server and redirects user to the login
+// route.
+// Parameter:
+// - c : *gin.Context
+// Response:
+// - HTTP 301: Moved permanently to the `/login` route.
+func Logout(c *gin.Context) {
+	// delete jwt token from the cookie cache by setting the maxAge to 0
+	c.SetCookie(CookieToken, "", -1, "/", "", false, true)
+	c.JSON(http.StatusOK, "Logout success.")
+	c.Redirect(http.StatusMovedPermanently, "http://localhost:5050/login")
 }
 
 // createToken creates a signed JWT token for granting logged in users access.
 // to perfrom certain functions
 // Parameter:
-// 	username - string
+//
+//	username - string
+//
 // Response:
 // - string: signed token string
 // - error : nil or non-nil value
@@ -168,13 +185,11 @@ func createToken(username string) (string, error) {
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256,
 		jwt.MapClaims{
 			"username": username,
-			"exp": time.Now().Add(time.Hour * 576).Unix(),
-	})
+			"exp":      time.Now().Add(time.Hour * 576).Unix(),
+		})
 
 	// convert token to byte String when signing
 	tokenString, err := token.SignedString([]byte(key))
-
-	fmt.Println(token)
 
 	if err != nil {
 		return "", err
@@ -184,7 +199,7 @@ func createToken(username string) (string, error) {
 }
 
 func verifyToken(tokenString string) error {
-	token, err:= jwt.Parse(tokenString, func(token *jwt.Token)(interface{}, error) {
+	token, err := jwt.Parse(tokenString, func(token *jwt.Token) (interface{}, error) {
 		return os.Getenv("SECRET_KEY"), nil
 	})
 
@@ -195,6 +210,6 @@ func verifyToken(tokenString string) error {
 	if !token.Valid {
 		return fmt.Errorf("invalid token")
 	}
-	
+
 	return nil
 }
