@@ -1,10 +1,14 @@
 package controller
 
 import (
+	"fmt"
 	"go-commerce/model"
 	"net/http"
+	"os"
+	"time"
 
 	"github.com/gin-gonic/gin"
+	"github.com/golang-jwt/jwt/v5"
 	"golang.org/x/crypto/bcrypt"
 )
 
@@ -89,4 +93,98 @@ func CreateAccount(c *gin.Context) {
 	c.JSON(201, gin.H{
 		"message": "account creation is successful",
 	})
+}
+
+// Login handles the log in of users for having access into db.
+// Accepts POST method with a ContentType: application/json with body containing details
+// e.g username or email, and password.
+// Stores a cookie session on the header where JWT would be stored.
+// Parameter:
+// - c : *gin.Context - GIN framework
+// Response:
+// - HTTP 200: Successfully signed in. 
+// - HTTP 401: User is unauthorized.
+// - HTTP 500: Unable to assign JWT
+func Login(c *gin.Context) {
+	if c.ContentType() != "application/json" {
+		c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
+			"error": "Wrong Content-Type Header",
+		})
+		return
+	}
+
+	var authUser model.Users
+	var foundUser model.Users
+	c.BindJSON(&authUser)
+
+	if authUser.Username == "" || authUser.PasswordHash == "" {
+		c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"error":"Username or password field cant be empty"})
+		return
+	}
+
+	// check if user exists in the db, if not return user not found error
+	result := model.DB.Where("username = ?", authUser.Username).First(&foundUser)
+
+	if result.Error != nil {
+		c.Abort()
+		return
+	}
+
+	// check if the password is valid if not return 401 unauthorized
+	if bcrypt.CompareHashAndPassword([]byte(foundUser.PasswordHash), []byte(authUser.PasswordHash)) != nil {
+		c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"error":"User is not authorized"})
+		return
+	}
+
+	// if user is authorized then create a jwt token and store in the user header
+	token, err := createToken(authUser.Username)
+
+	if err != nil {
+		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error": "Unable to assign token for user"})
+		return
+	}
+	c.SetCookie(authUser.Username, token, 240, "", "", false, true)
+
+	// return response that user is logged in successfully.
+	c.JSON(http.StatusOK, "Login successful.")
+	
+}
+
+// createToken creates a signed JWT token for granting logged in users access.
+// to perfrom certain functions
+// Parameter:
+// 	username - string
+// Response:
+// - string: signed token string
+// - error : nil or non-nil value
+func createToken(username string) (string, error) {
+	token := jwt.NewWithClaims(jwt.SigningMethodHS256,
+		jwt.MapClaims{
+			"username": username,
+			"exp": time.Now().Add(time.Hour * 576).Unix(),
+		})
+
+	tokenString, err := token.SignedString(os.Getenv("SECRET_KEY"))
+
+	if err != nil {
+		return "", err
+	}
+
+	return tokenString, nil
+}
+
+func verifyToken(tokenString string) error {
+	token, err:= jwt.Parse(tokenString, func(token *jwt.Token)(interface{}, error) {
+		return os.Getenv("SECRET_KEY"), nil
+	})
+
+	if err != nil {
+		return err
+	}
+
+	if !token.Valid {
+		return fmt.Errorf("invalid token")
+	}
+	
+	return nil
 }
