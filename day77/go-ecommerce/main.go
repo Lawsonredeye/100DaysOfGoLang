@@ -14,5 +14,6 @@ func main() {
 
 	r.POST("/signup", controller.CreateAccount)
 	r.POST("/login", controller.Login)
+	r.GET("/logout", controller.Logout)
 	r.Run(":5050")
 }
