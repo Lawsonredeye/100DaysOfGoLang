@@ -9,6 +9,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/golang-jwt/jwt/v5"
+	"github.com/joho/godotenv"
 	"golang.org/x/crypto/bcrypt"
 )
 
@@ -123,12 +124,12 @@ func Login(c *gin.Context) {
 	}
 
 	// check if user exists in the db, if not return user not found error
-	result := model.DB.Where("username = ?", authUser.Username).First(&foundUser)
+	model.DB.Where("username = ?", authUser.Username).First(&foundUser)
 
-	if result.Error != nil {
-		c.Abort()
-		return
-	}
+	// if result.Error != nil {
+	// 	c.AbortWithStatus(400)
+	// 	return
+	// }
 
 	// check if the password is valid if not return 401 unauthorized
 	if bcrypt.CompareHashAndPassword([]byte(foundUser.PasswordHash), []byte(authUser.PasswordHash)) != nil {
@@ -143,10 +144,10 @@ func Login(c *gin.Context) {
 		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error": "Unable to assign token for user"})
 		return
 	}
-	c.SetCookie(authUser.Username, token, 240, "", "", false, true)
+	c.SetCookie(authUser.Username, token, 24000, "", "", false, true)
 
 	// return response that user is logged in successfully.
-	c.JSON(http.StatusOK, "Login successful.")
+	c.JSON(http.StatusCreated, gin.H{"msg":"Login successful."})
 	
 }
 
@@ -158,13 +159,22 @@ func Login(c *gin.Context) {
 // - string: signed token string
 // - error : nil or non-nil value
 func createToken(username string) (string, error) {
+	err := godotenv.Load()
+
+	key := os.Getenv("SECRET_KEY")
+	if err != nil {
+		return "", err
+	}
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256,
 		jwt.MapClaims{
 			"username": username,
 			"exp": time.Now().Add(time.Hour * 576).Unix(),
-		})
+	})
 
-	tokenString, err := token.SignedString(os.Getenv("SECRET_KEY"))
+	// convert token to byte String when signing
+	tokenString, err := token.SignedString([]byte(key))
+
+	fmt.Println(token)
 
 	if err != nil {
 		return "", err
