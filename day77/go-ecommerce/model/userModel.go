@@ -4,24 +4,24 @@ import "time"
 
 type Users struct {
 	ID           uint
-	Username     string `json:"username"`
-	Email        string `json:"email"`
-	PasswordHash string `json:"password"`
-	Role         string `json:"role"`
+	Username     string    `json:"username"`
+	Email        string    `json:"email"`
+	PasswordHash string    `json:"password"`
+	Role         string    `json:"role"`
 	Created_at   time.Time `gorm:"autoCreateTime"`
 	Updated_at   time.Time `gorm:"autoCreateTime"`
 }
 
 type Product struct {
-	ID           uint
-	Name         string
-	Description  string
-	sku          string
-	category_id  int
-	color        string
-	product_size int
-	price        float64
-	quantity     int
-	created_at   time.Time
-	updated_at   time.Time
+	ID           uint      `json:"id"`
+	Name         string    `json:"name"`
+	Description  string    `json:"description"`
+	SKU          string    `json:"sku"`
+	CategoryID   int       `json:"category_id"`
+	Color        string    `json:"color"`
+	Product_size int       `json:"product_size"`
+	Price        float64   `json:"price"`
+	Quantity     int       `json:"quantity"`
+	Created_at   time.Time `gorm:"autoCreateTime"`
+	Updated_at   time.Time `gorm:"autoCreateTime"`
 }
