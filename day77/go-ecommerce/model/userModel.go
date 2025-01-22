@@ -13,15 +13,15 @@ type Users struct {
 }
 
 type Product struct {
-	ID           uint      `json:"id"`
-	Name         string    `json:"name"`
-	Description  string    `json:"description"`
-	SKU          string    `json:"sku"`
-	CategoryID   int       `json:"category_id"`
-	Color        string    `json:"color"`
-	Product_size int       `json:"product_size"`
-	Price        float64   `json:"price"`
-	Quantity     int       `json:"quantity"`
-	Created_at   time.Time `gorm:"autoCreateTime"`
-	Updated_at   time.Time `gorm:"autoCreateTime"`
+	ID          uint      `json:"id"`
+	Name        string    `json:"name"`
+	Description string    `json:"description"`
+	SKU         string    `json:"sku"`
+	CategoryID  int       `json:"category_id"`
+	Color       string    `json:"color"`
+	ProductSize int       `json:"product_size"`
+	Price       float64   `json:"price"`
+	Quantity    int       `json:"quantity"`
+	Created_at  time.Time `gorm:"autoCreateTime"`
+	Updated_at  time.Time `gorm:"autoCreateTime"`
 }
