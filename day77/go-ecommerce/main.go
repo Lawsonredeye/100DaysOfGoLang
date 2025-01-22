@@ -13,5 +13,6 @@ func main() {
 	model.DB.AutoMigrate(&model.Users{})
 
 	r.POST("/signup", controller.CreateAccount)
+	r.POST("/login", controller.Login)
 	r.Run(":5050")
 }
