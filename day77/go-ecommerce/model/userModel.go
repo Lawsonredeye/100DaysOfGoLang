@@ -4,12 +4,12 @@ import "time"
 
 type Users struct {
 	ID           uint
-	Username     string `json:"name"`
+	Username     string `json:"username"`
 	Email        string `json:"email"`
 	PasswordHash string `json:"password"`
 	Role         string `json:"role"`
-	Created_at   time.Time
-	Updated_at   time.Time
+	Created_at   time.Time `gorm:"autoCreateTime"`
+	Updated_at   time.Time `gorm:"autoCreateTime"`
 }
 
 type Product struct {

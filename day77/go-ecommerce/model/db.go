@@ -12,8 +12,6 @@ import (
 
 var DB = ConnectDB()
 
-// DB.AutoMigrate(&{})
-
 // ConnectDB connects to a MySQL database.
 func ConnectDB() *gorm.DB {
 	err := godotenv.Load()
@@ -22,8 +20,8 @@ func ConnectDB() *gorm.DB {
 	}
 
 	user := os.Getenv("HOST")
-	passwd := os.Getenv("HOSTPASSWD")
-	db_name := os.Getenv("DBNAME")
+	passwd := os.Getenv("HOST_PASSWORD")
+	db_name := os.Getenv("DB_NAME")
 
 	dns := fmt.Sprintf("%v:%v@tcp(127.0.0.1:3306)/%v?parseTime=True", user, passwd, db_name)
 	db, err := gorm.Open(mysql.Open(dns), &gorm.Config{})
