@@ -19,17 +19,24 @@ func AddProduct(c *gin.Context) {
 		})
 		return
 	}
+	
+	model.DB.Where("name = ?", strings.ToLower(product.Category)).First(&product.CategoryID)
 	// pass the data into the skuGenerator for a unique ID
 
 	sku := skuGenerator(product.Category, product.Color, product.ProductSize)
 	// store the sku into the obj.SKU
 	product.SKU = sku
 	// store the obj into the db
-	model.DB.Create(&product)
+	rows := model.DB.Create(&product).RowsAffected
 
+	if rows <= 0 {
+		c.Abort()
+		return
+	}
 	// return a 201 response to client
-	c.JSON(http.StatusOK, gin.H{
+	c.JSON(http.StatusCreated, gin.H{
 		"message": "Product added successful.",
+		"product_details": fmt.Sprintf("%+v", product),
 	})
 }
 
