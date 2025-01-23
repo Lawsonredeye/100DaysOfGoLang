@@ -17,6 +17,7 @@ type Product struct {
 	Name        string    `json:"name"`
 	Description string    `json:"description"`
 	SKU         string    `json:"sku"`
+	Category string `json:"category"`
 	CategoryID  int       `json:"category_id"`
 	Color       string    `json:"color"`
 	ProductSize int       `json:"product_size"`
@@ -24,4 +25,9 @@ type Product struct {
 	Quantity    int       `json:"quantity"`
 	Created_at  time.Time `gorm:"autoCreateTime"`
 	Updated_at  time.Time `gorm:"autoCreateTime"`
+}
+
+type Categories struct {
+	ID uint `json:"int"`
+	Name string `json:"string"`
 }
