@@ -73,3 +73,28 @@ func skuGenerator(category string, color string, size int) string {
 	}
 	return fmt.Sprintf("%v-%v-%04d", categoryCode, ccode, size)
 }
+
+// GET 200 /product/:name
+func FindProductByName(c *gin.Context) {
+	if c.Request.Method == "GET" {
+		// using the endpoint search for all products that has the id in the products database
+		// return 200
+		name := c.Param("name")
+
+		var categoryName model.Categories
+
+		model.DB.Where("name = ?", name).First(&categoryName)
+
+		if categoryName.Name != "" {
+			var allProducts []model.Product
+
+			model.DB.Where("category_id = ?", categoryName.ID).Find(&allProducts)
+			c.JSON(http.StatusOK, allProducts)
+			return
+		}
+		c.JSON(http.StatusNotFound, gin.H{
+			"error": "Oops! Nothing Found.",
+		})
+		return
+	}
+}
