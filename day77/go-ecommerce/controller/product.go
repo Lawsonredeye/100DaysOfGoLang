@@ -5,39 +5,53 @@ import (
 	"go-commerce/model"
 	"net/http"
 	"strings"
+	"time"
 
 	"github.com/gin-gonic/gin"
 )
 
 func AddProduct(c *gin.Context) {
-	// get the product from into an obj
-	var product model.Product
-	c.BindJSON(&product)
-	if product.Category == "" || product.Color == "" {
-		c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
-			"error": "Category or Color field can not be empty.",
+	if c.Request.Method == "POST" {
+		// get the product from into an obj
+		var product model.Product
+		c.BindJSON(&product)
+		if product.Category == "" || product.Color == "" {
+			c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
+				"error": "Category or Color field can not be empty.",
+			})
+			return
+		}
+
+		model.DB.Where("name = ?", strings.ToLower(product.Category)).First(&product.CategoryID)
+
+		if product.CategoryID == 0 {
+			product.CategoryID = 23
+		}
+
+		// pass the data into the skuGenerator for a unique ID
+		sku := skuGenerator(product.Category, product.Color, product.ProductSize)
+		product.SKU = sku
+
+		product.Created_at = time.Now()
+		product.Updated_at = time.Now()
+
+		// store the obj into the db
+		// product.Category = ""
+		// rows := model.DB.Create(&product).RowsAffected
+
+		// if rows <= 0 {
+		// 	c.Abort()
+		// 	return
+		// }
+
+		model.DB.Exec("INSERT INTO products (name, description, sku, category_id, color, product_size, quantity, created_at, updated_at) values (?, ?, ?, ?, ?, ?, ?, ? ,?)", product.Name, product.Description, product.SKU, product.CategoryID, product.Color,
+			product.ProductSize, product.Quantity, product.Created_at, product.Updated_at)
+		// return a 201 response to client
+		c.JSON(http.StatusCreated, gin.H{
+			"message":         "Product added successful.",
+			"product_details": product,
 		})
-		return
 	}
-	
-	model.DB.Where("name = ?", strings.ToLower(product.Category)).First(&product.CategoryID)
-	// pass the data into the skuGenerator for a unique ID
-
-	sku := skuGenerator(product.Category, product.Color, product.ProductSize)
-	// store the sku into the obj.SKU
-	product.SKU = sku
-	// store the obj into the db
-	rows := model.DB.Create(&product).RowsAffected
-
-	if rows <= 0 {
-		c.Abort()
-		return
-	}
-	// return a 201 response to client
-	c.JSON(http.StatusCreated, gin.H{
-		"message": "Product added successful.",
-		"product_details": fmt.Sprintf("%+v", product),
-	})
 }
 
 func skuGenerator(category string, color string, size int) string {
