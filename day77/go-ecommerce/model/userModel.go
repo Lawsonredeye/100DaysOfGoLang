@@ -30,4 +30,5 @@ type Product struct {
 type Categories struct {
 	ID uint `json:"int"`
 	Name string `json:"string"`
+	Abbrevation string `json:"string"`
 }
