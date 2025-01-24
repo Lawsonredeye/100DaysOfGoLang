@@ -10,6 +10,15 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+// AddProduct adds new product into the database and also adds
+// a SKU for identification of products.
+// Listens for a POST request to handle with a JSON body for key values
+// such as product [name, description, cagtegory, color, size, quantity].
+// Parameter:
+// - c : *gin.Context - GIN framework
+// Response:
+// - HTTP 201: Product added successfully
+// - HTTP 400: Empty required fields.
 func AddProduct(c *gin.Context) {
 	if c.Request.Method == "POST" {
 		// get the product from into an obj
