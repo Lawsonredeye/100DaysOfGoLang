@@ -31,11 +31,17 @@ func AddProduct(c *gin.Context) {
 			return
 		}
 
-		model.DB.Where("name = ?", strings.ToLower(product.Category)).First(&product.CategoryID)
+		var abvr model.Categories
 
-		if product.CategoryID == 0 {
+		model.DB.Where("name = ?", strings.ToLower(product.Category)).First(&abvr)
+
+		if abvr.ID == 0 {
 			product.CategoryID = 23
+		} else {
+			product.CategoryID = int(abvr.ID)
 		}
+
+		fmt.Println(product.CategoryID)
 
 		// pass the data into the skuGenerator for a unique ID
 		sku := skuGenerator(product.Category, product.Color, product.ProductSize)
@@ -43,15 +49,6 @@ func AddProduct(c *gin.Context) {
 
 		product.Created_at = time.Now()
 		product.Updated_at = time.Now()
-
-		// store the obj into the db
-		// product.Category = ""
-		// rows := model.DB.Create(&product).RowsAffected
-
-		// if rows <= 0 {
-		// 	c.Abort()
-		// 	return
-		// }
 
 		model.DB.Exec("INSERT INTO products (name, description, sku, category_id, color, product_size, quantity, created_at, updated_at) values (?, ?, ?, ?, ?, ?, ?, ? ,?)", product.Name, product.Description, product.SKU, product.CategoryID, product.Color,
 			product.ProductSize, product.Quantity, product.Created_at, product.Updated_at)
