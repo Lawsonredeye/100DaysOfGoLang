@@ -24,10 +24,31 @@ func AddProduct(c *gin.Context) {
 		// get the product from into an obj
 		var product model.Product
 		c.BindJSON(&product)
-		if product.Category == "" || product.Color == "" {
-			c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
-				"error": "Category or Color field can not be empty.",
-			})
+		// if product.Category == "" || product.Color == "" {
+		// 	c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
+		// 		"error": "Category or Color field can not be empty.",
+		// 	})
+		// 	return
+		// }
+
+		switch {
+		case product.Name == "":
+			abortWithStatusJSON("Name", c)
+			return
+		case product.Description == "":
+			abortWithStatusJSON("Description", c)
+			return
+		case product.Price == 0:
+			abortWithStatusJSON("Price", c)
+			return
+		case product.Category == "":
+			abortWithStatusJSON("Category", c)
+			return
+		case product.Color == "":
+			abortWithStatusJSON("Color", c)
+			return
+		case product.ProductSize <= 0:
+			abortWithStatusJSON("Size", c)
 			return
 		}
 
@@ -41,12 +62,25 @@ func AddProduct(c *gin.Context) {
 			product.CategoryID = int(abvr.ID)
 		}
 
-		fmt.Println(product.CategoryID)
-
 		// pass the data into the skuGenerator for a unique ID
 		sku := skuGenerator(product.Category, product.Color, product.ProductSize)
-		product.SKU = sku
 
+		// find product based on the generated sku and product size
+		var foundProduct model.Product
+		model.DB.Where("sku = ? AND product_size = ?", sku, product.ProductSize).First(&foundProduct)
+
+		if foundProduct.Name != "" {
+			foundProduct.Quantity += product.Quantity
+			foundProduct.Updated_at = time.Now()
+			model.DB.Model(foundProduct).Omit("created_at").Updates(foundProduct)
+			c.JSON(http.StatusCreated, gin.H{
+				"message":         "Product updated successful.",
+				"product_details": product,
+			})
+			return
+		}
+
+		product.SKU = sku
 		product.Created_at = time.Now()
 		product.Updated_at = time.Now()
 
@@ -188,4 +222,17 @@ func UpdateProductByID(c *gin.Context) {
 	model.DB.Model(product).Omit("created_at").Updates(product)
 
 	c.JSON(http.StatusOK, "Product updated successfully")
+}
+
+// abortWithStatusJSON aborts from the route with a HTTP status 400
+// terminating the data.
+// Parameter:
+// - msg : any type of go object
+// - c : *gin.Context
+// Response:
+// - HTTP 400
+func abortWithStatusJSON(msg any, c *gin.Context) {
+	c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
+		"error": fmt.Sprintf("%v field can not be empty.", msg),
+	})
 }
