@@ -123,3 +123,69 @@ func DeleteProductByID(c *gin.Context) {
 	model.DB.Delete(&model.Product{}, id)
 	c.JSON(http.StatusNoContent, "")
 }
+
+// UpdatedProductByID updated only the field passed by the user for
+// updating product information.
+// Using the PUT /product/:id, informations about specific products for updates
+// are done.
+// Parameter:
+// - c : *gin.Context
+// Response:
+// - HTTP 200: Product updated successfully.
+// - HTTP 400: Wrong HTTP method, use PUT.
+// - HTTP 404: Product with ID not found.
+func UpdateProductByID(c *gin.Context) {
+	if c.Request.Method != "PUT" {
+		c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
+			"error": "Wrong HTTP method, use PUT.",
+		})
+		return
+	}
+
+	var product model.Product
+	var updatedProduct model.Product
+
+	c.BindJSON(&updatedProduct)
+	if updatedProduct.Name == "" {
+		c.AbortWithStatus(http.StatusBadRequest)
+		return
+	}
+
+	result := model.DB.Where("id = ?", c.Param("id")).First(&product)
+	if result.Error != nil {
+		c.AbortWithStatusJSON(http.StatusNotFound, gin.H{
+			"error": "Product with id [" + c.Param("id") + "] not found.",
+		})
+		return
+	}
+
+	product.Name = updatedProduct.Name
+	product.Description = updatedProduct.Description
+	if updatedProduct.Price != 0 {
+		product.Price = updatedProduct.Price
+	}
+	if updatedProduct.Color != "" {
+		product.Color = updatedProduct.Color
+	}
+	if updatedProduct.ProductSize != 0 {
+		product.ProductSize = updatedProduct.ProductSize
+	}
+	if updatedProduct.Quantity != 0 {
+		product.Quantity = updatedProduct.Quantity
+	}
+	if updatedProduct.Category != "" {
+		var category model.Categories
+		err := model.DB.Where("name = ?", updatedProduct.Category).First(&category)
+		if err.Error != nil {
+			category.Name = "unknown"
+			category.ID = 23
+		}
+		product.SKU = skuGenerator(category.Name, product.Color, product.ProductSize)
+		product.CategoryID = int(category.ID)
+	}
+	product.Updated_at = time.Now()
+
+	model.DB.Model(product).Omit("created_at").Updates(product)
+
+	c.JSON(http.StatusOK, "Product updated successfully")
+}
