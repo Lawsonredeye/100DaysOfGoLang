@@ -74,6 +74,14 @@ func skuGenerator(category string, color string, size int) string {
 	return fmt.Sprintf("%v-%v-%04d", categoryCode, ccode, size)
 }
 
+// FindProductByName finds all product based on their category name and not product name.
+// Using the HTTP GET Method, Products are returned to the client in a List based on the
+// items found.
+// Parameter:
+// - c : *gin.Context
+// Response:
+// - HTTP 200: List of products.
+// - HTTP 404: No product was found.
 func FindProductByName(c *gin.Context) {
 	if c.Request.Method == "GET" {
 		// using the endpoint search for all products that has the id in the products database
