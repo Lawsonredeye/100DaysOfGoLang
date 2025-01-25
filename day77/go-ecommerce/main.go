@@ -17,5 +17,7 @@ func main() {
 	r.GET("/logout", controller.Logout)
 	r.POST("/product", controller.AddProduct)
 	r.GET("/product/:name", controller.FindProductByName)
+	r.DELETE("/product/:id", controller.DeleteProductByID)
+	r.PUT("/product/:id", controller.UpdateProductByID)
 	r.Run(":5050")
 }
