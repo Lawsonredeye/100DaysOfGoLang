@@ -50,8 +50,8 @@ func AddProduct(c *gin.Context) {
 		product.Created_at = time.Now()
 		product.Updated_at = time.Now()
 
-		model.DB.Exec("INSERT INTO products (name, description, sku, category_id, color, product_size, quantity, created_at, updated_at) values (?, ?, ?, ?, ?, ?, ?, ? ,?)", product.Name, product.Description, product.SKU, product.CategoryID, product.Color,
-			product.ProductSize, product.Quantity, product.Created_at, product.Updated_at)
+		model.DB.Exec("INSERT INTO products (name, description, sku, category_id, color, product_size, quantity, price, created_at, updated_at) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", product.Name, product.Description, product.SKU, product.CategoryID, product.Color,
+			product.ProductSize, product.Quantity, product.Price, product.Created_at, product.Updated_at)
 		// return a 201 response to client
 		c.JSON(http.StatusCreated, gin.H{
 			"message":         "Product added successful.",
@@ -74,7 +74,6 @@ func skuGenerator(category string, color string, size int) string {
 	return fmt.Sprintf("%v-%v-%04d", categoryCode, ccode, size)
 }
 
-// GET 200 /product/:name
 func FindProductByName(c *gin.Context) {
 	if c.Request.Method == "GET" {
 		// using the endpoint search for all products that has the id in the products database
@@ -97,4 +96,22 @@ func FindProductByName(c *gin.Context) {
 		})
 		return
 	}
+}
+
+// DeleteProductByID deletes a product from the database along with it's entire
+// quantity passed into the database.
+// Parameter:
+// - c : *gin.Context
+// Response:
+// - HTTP 204: Product deleted successfully.
+// - HTTP 400: Wrong HTTP Method, use DELETE.
+func DeleteProductByID(c *gin.Context) {
+	if c.Request.Method != "DELETE" {
+		c.AbortWithStatus(http.StatusBadRequest)
+		return
+	}
+
+	id := c.Param("id")
+	model.DB.Delete(&model.Product{}, id)
+	c.JSON(http.StatusNoContent, "")
 }
