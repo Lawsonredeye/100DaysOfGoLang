@@ -21,6 +21,7 @@ CREATE TABLE IF NOT EXISTS users (
 CREATE TABLE IF NOT EXISTS categories (
 	id int auto_increment,
 	name varchar(256),
+	abbreviation VARCHAR(10) NOT NULL,
 
 	primary key(id)
 );
@@ -67,3 +68,27 @@ CREATE TABLE IF NOT EXISTS order_items (
 	foreign key(order_id) references orders(id),
 	foreign key(product_id) references products(id)
 );
+
+INSERT INTO categories (name, abbreviation) VALUES 
+("jeans", "JNS"),
+("tshirt", "TSH"),
+("jacket", "JKT"),
+("shoes", "SHS"),
+("shorts", "SRT"),
+("hoodie", "HDY"),
+("dress", "DRS"),
+("skirt", "SKT"),
+("suit", "SUT"),
+("hat", "HAT"),
+("laptop", "LPT"),
+("white", "WHT"),
+("red", "RED"),
+("green", "GRN"),
+("blue", "BLU"),
+("yellow", "YLW"),
+("pink", "PNK"),
+("brown", "BRW"),
+("magenta", "MGT"),
+("rose", "RSE"),
+("velvet", "VEL"),
+("black", "BLK");
