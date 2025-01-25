@@ -24,12 +24,6 @@ func AddProduct(c *gin.Context) {
 		// get the product from into an obj
 		var product model.Product
 		c.BindJSON(&product)
-		// if product.Category == "" || product.Color == "" {
-		// 	c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
-		// 		"error": "Category or Color field can not be empty.",
-		// 	})
-		// 	return
-		// }
 
 		switch {
 		case product.Name == "":
