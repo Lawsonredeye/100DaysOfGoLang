@@ -23,8 +23,8 @@ type Product struct {
 	ProductSize int       `json:"product_size"`
 	Price       float64   `json:"price"`
 	Quantity    int       `json:"quantity"`
-	Created_at  time.Time `gorm:"autoCreateTime"`
-	Updated_at  time.Time `gorm:"autoCreateTime"`
+	Created_at  time.Time `gorm:"autoCreateTime" json:"created_at"`
+	Updated_at  time.Time `gorm:"autoCreateTime" json:"updated_at"`
 }
 
 type Categories struct {
@@ -36,9 +36,9 @@ type Categories struct {
 type OrderItem struct {
 	ID uint `json:"id"`
 	OrderID int `json:"order_id"`
-	ProductID int 	`json:"product_id"`
+	ProductID uint 	`json:"product_id"`
 	Quantity int 	`json:"quantity"`
 	Price	float64 `json:"price"`
-	Created_at  time.Time `gorm:"autoCreateTime"`
-	Updated_at  time.Time `gorm:"autoCreateTime"`
+	Created_at  time.Time `gorm:"autoCreateTime" json:"created_at"`
+	Updated_at  time.Time `gorm:"autoCreateTime" json:"updated_at"`
 }
