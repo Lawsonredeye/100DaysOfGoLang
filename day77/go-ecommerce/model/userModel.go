@@ -32,3 +32,13 @@ type Categories struct {
 	Name string `json:"string"`
 	Abbrevation string `json:"string"`
 }
+
+type OrderItem struct {
+	ID uint `json:"id"`
+	OrderID int `json:"order_id"`
+	ProductID int 	`json:"product_id"`
+	Quantity int 	`json:"quantity"`
+	Price	float64 `json:"price"`
+	Created_at  time.Time `gorm:"autoCreateTime"`
+	Updated_at  time.Time `gorm:"autoCreateTime"`
+}
