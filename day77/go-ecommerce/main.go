@@ -19,5 +19,6 @@ func main() {
 	r.GET("/product/:name", controller.FindProductByName)
 	r.DELETE("/product/:id", controller.DeleteProductByID)
 	r.PUT("/product/:id", controller.UpdateProductByID)
+	r.POST("/orders", controller.AddOrder)
 	r.Run(":5050")
 }
