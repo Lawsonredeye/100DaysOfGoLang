@@ -8,8 +8,8 @@ type Users struct {
 	Email        string    `json:"email"`
 	PasswordHash string    `json:"password"`
 	Role         string    `json:"role"`
-	Created_at  time.Time `gorm:"autoCreateTime" json:"created_at"`
-	Updated_at  time.Time `gorm:"autoCreateTime" json:"updated_at"`
+	Created_at   time.Time `gorm:"autoCreateTime" json:"created_at"`
+	Updated_at   time.Time `gorm:"autoCreateTime" json:"updated_at"`
 }
 
 type Product struct {
