@@ -127,11 +127,6 @@ func Login(c *gin.Context) {
 	// check if user exists in the db, if not return user not found error
 	model.DB.Where("username = ?", authUser.Username).First(&foundUser)
 
-	// if result.Error != nil {
-	// 	c.AbortWithStatus(400)
-	// 	return
-	// }
-
 	// check if the password is valid if not return 401 unauthorized
 	if bcrypt.CompareHashAndPassword([]byte(foundUser.PasswordHash), []byte(authUser.PasswordHash)) != nil {
 		c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"error": "User is not authorized"})
@@ -168,9 +163,7 @@ func Logout(c *gin.Context) {
 // createToken creates a signed JWT token for granting logged in users access.
 // to perfrom certain functions
 // Parameter:
-//
-//	username - string
-//
+// - username: string
 // Response:
 // - string: signed token string
 // - error : nil or non-nil value
