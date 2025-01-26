@@ -45,7 +45,13 @@ type MyCustomClaims struct {
 	jwt.RegisteredClaims
 }
 
-
+// ValidateCookies validates the jwt token and also returns the userID of the
+// current logged in user.
+// Parameter:
+// - tokenString: *jwt string token from the cookie session
+// Response:
+// - int: the userID
+// - err: nil if JWT fails to validate jwt token
 func ValidateCookies(tokenString string) (int, error) {
 	token, err := jwt.ParseWithClaims(tokenString, &MyCustomClaims{}, func(t *jwt.Token) (interface{}, error) {
 		return []byte(os.Getenv("SECRET_KEY")), nil
