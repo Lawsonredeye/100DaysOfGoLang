@@ -228,3 +228,80 @@ Product with category name was not found
     "error": "Oops! Nothing Found."
 }
 ```
+
+## Update Product By Product ID
+
+`PUT "/api/v1/product/:id"`
+
+Updates the product based on what parameter client wish to change e.g Price, Name, Description, Color, e.t.c.
+
+```
+curl --location --request PUT 'localhost:5050/api/v1/product/10' \
+--header 'Content-Type: application/json' \
+--data '{
+    "name": "Nike",
+    "description": "Made for legends.",
+    "color": "black",
+    "price": 999.8
+}'
+```
+
+### RESPONSE:
+#### Success 200 OK:
+`"Product updated successfully"`
+
+### ERROR 400 BAD REQUEST
+`Missing key "name" is empty.`
+
+
+## Delete Product By Product ID
+
+`DELETE /api/v1/product/:id`
+
+Deletes product from the database by the ID parameter on the url
+
+`curl --location --request DELETE 'localhost:5050/api/v1/product/10'`
+
+### RESPONSE
+#### SUCCESS 200 OK
+
+## Add Order To Cart
+
+`POST /api/v1/orders`
+
+Adds an item to the order based on the id of the product and the quantity to be purchased.
+
+```curl
+curl --location 'localhost:5050/api/v1/order' \
+--header 'Content-Type: application/json' \
+--data '{
+    "product_id": 10,
+    "quantity": 8
+}'
+```
+
+### RESPONSE
+#### Success 200 OK:
+
+```
+{
+    "details": {
+        "id": 4,
+        "order_id": 3,
+        "product_id": 10,
+        "quantity": 8,
+        "price": 6401.6,
+        "created_at": "2025-01-27T12:04:24.184+01:00",
+        "updated_at": "2025-01-27T12:04:24.184+01:00"
+    },
+    "message": "Success. Item added to cart"
+}
+```
+
+### ERROR 401 UNAUTHORIZED
+You must be logged in to carry out operation
+```
+{
+    "error":"Cookie field can not be empty."
+}
+```
