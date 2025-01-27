@@ -11,6 +11,8 @@ Tasks/mini projects would be added upon each week to further solidify my memory.
 
 2. TO-DO App: using the gin-gonic library to build a simple to Todo RESTful API application for creating tasks as well as adding descriptions too
 
+3. Go-Ecommerce: An ecommerce backend API, using the RESTful API and HTTP methodologies. Using the gin-gonic library, gorm ORM and MySQL for data persistence.
+
 ---
 ## Docs & Logs
 Documentation would be stored inside a *logs.md* be sure to check them to see added info about each day.
