@@ -1,5 +1,7 @@
 # GO-ECOMMERCE API DOCUMENTATION
 
+This is a demo e-commerce site 
+
 ## SIGN UP
 
 `POST /api/v1/signup`
@@ -55,6 +57,7 @@ curl --location 'localhost:5050/api/v1/login' \
 ```
 
 #### ERROR - 401 UNAUTHORIZED:
+Wrong credentials.
 ```
 {
     "error": "User is not authorized"
@@ -258,7 +261,7 @@ curl --location --request PUT 'localhost:5050/api/v1/product/10' \
 
 `DELETE /api/v1/product/:id`
 
-Deletes product from the database by the ID parameter on the url
+Deletes product from the database by the ID parameter on the url.
 
 `curl --location --request DELETE 'localhost:5050/api/v1/product/10'`
 
@@ -299,7 +302,7 @@ curl --location 'localhost:5050/api/v1/order' \
 ```
 
 ### ERROR 401 UNAUTHORIZED
-You must be logged in to carry out operation
+You must be logged in to carry out operation.
 ```
 {
     "error":"Cookie field can not be empty."
