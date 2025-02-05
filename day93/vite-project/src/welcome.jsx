@@ -1,23 +1,28 @@
-import './App.css'
+function Button({ text = "Click Me!", color = "blue", fontSize = 12, handleClick}) {
+    const buttonStyle = {
+        color: color,
+        fontSize: fontSize + 'px'
+    };
 
-export function Welcome(props) {
-    if (!props.name) {
-        return <h1>Hello, Stranger!</h1>
-    }
-
-    return <h1>Welcome, {props.name}!</h1>
+    return (
+        <button  onClick={handleClick} style={buttonStyle}>{text}</button>
+    );
 }
 
-export function WelcomeMsg() {
+export default function App() {
+    const handleButtonClick = () => {
+        window.location.href = "https://www.google.com"
+    };
+
     return (
-        <>
-            <nav>
-                <ul>
-                    <li>head</li>
-                    <li>contact</li>
-                    <li>menu</li>
-                </ul>
-            </nav>
-        </>
-    )
+        <div>
+            {/* <Button />
+            <Button text="Don't Click Me!" color="red" />
+            <Button fontSize={12}/> */}
+
+            <div>
+                <Button handleClick={handleButtonClick} />
+            </div>
+        </div>
+    );
 }
