@@ -1,28 +1,26 @@
-function Button({ text = "Click Me!", color = "blue", fontSize = 12, handleClick}) {
-    const buttonStyle = {
-        color: color,
-        fontSize: fontSize + 'px'
+import { useState } from "react"
+
+const COLORS = ["blue", "green", "brown", "red", "indigo", "pink"]
+
+export function App() {
+    const [color, setColor] = useState(COLORS[0])
+
+    const ChangeColor = (newColor) => () => {
+        setColor(newColor);
     };
 
     return (
-        <button  onClick={handleClick} style={buttonStyle}>{text}</button>
-    );
-}
+        <>
+            <h1 style={{color}}>Hello, World</h1>
+            <button type="button" style={{color}}>Click here</button>
+            {COLORS.map((color) => (
+                <button type="button"
+                key={color}
+                onClick={ChangeColor(color)}>
+                    Click, Me
+                </button>
+            ))}
+        </>
+    )
 
-export default function App() {
-    const handleButtonClick = () => {
-        window.location.href = "https://www.google.com"
-    };
-
-    return (
-        <div>
-            {/* <Button />
-            <Button text="Don't Click Me!" color="red" />
-            <Button fontSize={12}/> */}
-
-            <div>
-                <Button handleClick={handleButtonClick} />
-            </div>
-        </div>
-    );
 }
