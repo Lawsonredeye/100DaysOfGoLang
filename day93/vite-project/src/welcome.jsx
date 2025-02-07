@@ -1,36 +1,24 @@
-import {useState} from 'react'
+import { useState } from 'react';
 
-export default function Form() {
-    const [isSent, setIsSent] = useState(false)
-    const [message, setMessage] = useState("Hi!");
+export default function TrafficLight() {
+  const [walk, setWalk] = useState(true);
 
-    if (isSent) {
-        return <h1>Your message is on its way!</h1>
-    }
-    return (
-        <form onSubmit={(e) => {
-            e.preventDefault();
-            setIsSent(true);
-            sendMessage(message);
-            isEmptyMsg(message)
-        }}>
-            <textarea 
-            placeholder='Message'
-            value={message}
-            onChange={e => setMessage(e.target.value)}
 
-            />
-            <button type='submit'>Send</button>
-        </form>
-    );
-}
+  function handleClick() {
+    setWalk(!walk);
+    alert(walk ? "Stop is next": "Walk is next");
+  }
 
-function sendMessage(message) {
-    console.log("hehe:", message)
-}
-
-function isEmptyMsg(msg) {
-    if (msg === ""){
-        console.log("Nigga why this dull message!");
-    }
+  return (
+    <>
+      <button onClick={handleClick}>
+        Change to {walk ? 'Stop' : 'Walk'}
+      </button>
+      <h1 style={{
+        color: walk ? 'darkgreen' : 'darkred'
+      }}>
+        {walk ? 'Walk' : 'Stop'}
+      </h1>
+    </>
+  );
 }
