@@ -7,49 +7,40 @@ package graph
 import (
 	"context"
 	"fmt"
-	"go-graphql/graph/model"
+	"golang-hackernews/graph/model"
 )
 
-// CreateCategory is the resolver for the createCategory field.
-func (r *mutationResolver) CreateCategory(ctx context.Context, input model.NewCategory) (*model.Category, error) {
-	category, err := r.CategoryDB.Create(input.Name, input.Description)
-	if err != nil {
-		return nil, err
-	}
-
-	return &model.Category{
-		ID:          category.ID,
-		Name:        category.Name,
-		Description: category.Description,
-	}, nil
+// CreateLink is the resolver for the createLink field.
+func (r *mutationResolver) CreateLink(ctx context.Context, input model.NewLink) (*model.Link, error) {
+	panic(fmt.Errorf("not implemented: CreateLink - createLink"))
 }
 
-// CreateCourse is the resolver for the createCourse field.
-func (r *mutationResolver) CreateCourse(ctx context.Context, input model.NewCourse) (*model.Course, error) {
-	panic(fmt.Errorf("not implemented: CreateCourse - createCourse"))
+// CreateUser is the resolver for the createUser field.
+func (r *mutationResolver) CreateUser(ctx context.Context, input model.NewUser) (string, error) {
+	panic(fmt.Errorf("not implemented: CreateUser - createUser"))
 }
 
-// Categories is the resolver for the categories field.
-func (r *queryResolver) Categories(ctx context.Context) ([]*model.Category, error) {
-	categories, err := r.CategoryDB.FindAll()
-	if err != nil {
-		return nil, err
-	}
-	var categoriesModel []*model.Category
-
-	for _, category := range categories {
-		categoriesModel = append(categoriesModel, &model.Category{
-			ID:          category.ID,
-			Name:        category.Name,
-			Description: category.Description,
-		})
-	}
-	return categoriesModel, nil
+// Login is the resolver for the login field.
+func (r *mutationResolver) Login(ctx context.Context, input *model.Login) (string, error) {
+	panic(fmt.Errorf("not implemented: Login - login"))
 }
 
-// Courses is the resolver for the courses field.
-func (r *queryResolver) Courses(ctx context.Context) ([]*model.Course, error) {
-	panic(fmt.Errorf("not implemented: Courses - courses"))
+// RefreshToken is the resolver for the refreshToken field.
+func (r *mutationResolver) RefreshToken(ctx context.Context, input model.RefreshTokenInput) (string, error) {
+	panic(fmt.Errorf("not implemented: RefreshToken - refreshToken"))
+}
+
+// Links is the resolver for the links field.
+func (r *queryResolver) Links(ctx context.Context) ([]*model.Link, error) {
+	var links []*model.Link
+	dummyLink := model.Link{
+		Title: "Our dummy link",
+		Address: "https://address.org",
+		User: &model.User{Name: "admin"},
+	}
+
+	links = append(links, &dummyLink)
+	return links, nil
 }
 
 // Mutation returns MutationResolver implementation.
