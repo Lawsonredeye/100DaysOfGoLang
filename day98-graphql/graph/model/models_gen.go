@@ -2,33 +2,39 @@
 
 package model
 
-type Category struct {
-	ID          string    `json:"id"`
-	Name        string    `json:"name"`
-	Description string    `json:"description"`
-	Courses     []*Course `json:"courses"`
+type Link struct {
+	ID      string `json:"id"`
+	Title   string `json:"title"`
+	Address string `json:"address"`
+	User    *User  `json:"user"`
 }
 
-type Course struct {
-	ID          string    `json:"id"`
-	Name        string    `json:"name"`
-	Description string    `json:"description"`
-	Category    *Category `json:"category"`
+type Login struct {
+	Username string `json:"username"`
+	Password string `json:"password"`
 }
 
 type Mutation struct {
 }
 
-type NewCategory struct {
-	Name        string `json:"name"`
-	Description string `json:"description"`
+type NewLink struct {
+	Title   string `json:"title"`
+	Address string `json:"address"`
 }
 
-type NewCourse struct {
-	Name        string `json:"name"`
-	Description string `json:"description"`
-	CategoryID  string `json:"categoryId"`
+type NewUser struct {
+	Username string `json:"username"`
+	Password string `json:"password"`
 }
 
 type Query struct {
+}
+
+type RefreshTokenInput struct {
+	Token string `json:"token"`
+}
+
+type User struct {
+	ID   string `json:"id"`
+	Name string `json:"name"`
 }
